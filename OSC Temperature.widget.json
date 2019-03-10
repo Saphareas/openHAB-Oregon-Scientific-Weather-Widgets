@@ -1,0 +1,34 @@
+{
+    "name": "Oregon Scientific Temperature",
+    "author": "Fabian 'Saphareas' Große",
+    "description": "Shows current, minimum and maximum temperature",
+    "settings": [
+        {
+            "type": "item",
+            "id": "min_temperature",
+            "label": "Min Temperature"
+        },
+        {
+            "type": "item",
+            "id": "max_temperature",
+            "label": "Max Temperature"
+        },
+        {
+            "type": "item",
+            "id": "temperature",
+            "label": "Temperature"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_low_battery",
+            "label": "Show low battery warning",
+            "default": false
+        },
+        {
+            "type": "item",
+            "id": "low_battery",
+            "label": "Low Battery"
+        }
+    ],
+    "template": "<style>\n  .osc-maximize {\n    height: 100%;\n    width: 100%;\n  }\n  .osc-body {\n    display: grid;\n    grid-template-areas:\n      \"title bat_warn\"\n      \"t_icon t_value\"\n      \"min_icon min_value\"\n      \"max_icon max_value\";\n    grid-template-columns: 50% 50%;\n    grid-template-rows: min-content repeat(3, 1fr);\n    align-items: center;\n  }\n  .osc-title {\n    grid-area: title;\n    grid-column: 1 / span 2;\n    text-align: left;\n    margin-top: 0;\n    align-self: start;\n    font-size: 150%;\n  }\n  .osc-value {\n    font-size: 1.75rem;\n    text-align: left;\n  }\n  .osc-temp {\n    grid-area: t_value;\n    color: {{config.t_color}}\n  }\n  .osc-low-bat { grid-area: bat_warn; }\n  .osc-low-bat img { float: right; }\n</style>\n\n<a href=\"#/view/{{config.target_dashboard}}\" oc-lazy-load=\"['/static/habpanel_oscwidget_maximize.js']\">\n  <main class=\"osc-maximize osc-body\" ng-controller=\"ngMaximizeWidgetContent\">\n    <h3 class=\"osc-title\">{{ngModel.name}}</h3>\t\n    <span style=\"grid-area: t_icon\"><widget-icon iconset=\"'smarthome-set'\" icon=\"'temperature'\"/></span>\n    <span class=\"osc-value osc-temp\">{{'%.1f' | sprintf:itemValue(config.temperature).split(' ')[0]}}&nbsp;{{itemValue(config.temperature).split(' ')[1]}}</span>\n    <span style=\"grid-area: h_icon\"><widget-icon iconset=\"'smarthome-set'\" icon=\"'drop'\"/></span>\n    <span class=\"osc-value osc-hum\">{{'%.1f' | sprintf:itemValue(config.humidity).split(' ')[0]}}&nbsp;%</span>\n    <span class=\"osc-low-bat\" ng-if=\"config.show_low_battery == true && itemvalue(config.low_battery) == true\"><widget-icon iconset=\"'eclipse-smarthome-classic'\" icon=\"'lowbattery'\"/></span>\n\t</main>\n</a>\n\n"
+}
