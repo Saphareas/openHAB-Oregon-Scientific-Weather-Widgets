@@ -8,10 +8,10 @@
         function ($rootScope, $scope) {
   
           function maximize() {
-            console.debug("Maximizing ");
-            let parent = document.querySelector("main.osc-body");
+            //console.debug("Maximizing ");
+            let parent = document.querySelector(".osc-widget");
             if (parent != null) {
-                parent = parent.parentElement.parentElement;
+                parent = parent.parentElement;
                 parent.classList.add("osc-maximize");
             }
           }
