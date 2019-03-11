@@ -1,0 +1,26 @@
+:root {
+  --osc-red: #F39;
+  --osc-blue: #6CF;
+  --osc-green: #6F6;
+  --osc-yellow: #FF6;
+  --osc-grey: #ABC;
+}
+.osc.maximize {
+  height: 100%;
+  width: 100%;
+}
+.osc.body {
+  display: grid;
+  align-items: center;
+}
+.osc.title {
+  grid-area: title;
+  grid-column: 1 / span 2;
+  text-align: left;
+  margin-top: 0;
+  align-self: start;
+  font-size: 2rem;
+  color: var(--osc-grey);
+}
+.osc.low-bat { grid-area: bat_warn; }
+.osc.low-bat img { float: right; }

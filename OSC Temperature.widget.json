@@ -19,10 +19,11 @@
             "label": "Temperature"
         },
         {
-            "type": "checkbox",
-            "id": "show_low_battery",
-            "label": "Show low battery warning",
-            "default": false
+            "type": "number",
+            "id": "font_size",
+            "label": "Font Size",
+            "default": "10",
+            "description": "in rem"
         },
         {
             "type": "checkbox",
@@ -31,10 +32,18 @@
             "label": "Colored Text"
         },
         {
+            "type": "checkbox",
+            "id": "show_low_battery",
+            "label": "Show low battery warning",
+            "default": false
+        },
+        {
             "type": "item",
             "id": "low_battery",
             "label": "Low Battery"
         }
     ],
-    "template": "<style>\n  .osc-maximize {\n    height: 100%;\n    width: 100%;\n  }\n  .osc-body {\n    display: grid;\n    grid-template-areas:\n      \"title bat_warn\"\n      \"t_icon t_value\"\n      \"min_icon min_value\"\n      \"max_icon max_value\";\n    grid-template-columns: 50% 50%;\n    grid-template-rows: min-content repeat(3, 1fr);\n    align-items: center;\n    font-size: 1.75rem;\n  }\n  .osc-title {\n    grid-area: title;\n    grid-column: 1 / span 2;\n    text-align: left;\n    margin-top: 0;\n    align-self: start;\n    font-size: 150%;\n  }\n  .osc-value {    \n    text-align: left;\n  }\n  .osc-temp {\n    grid-area: t_value;\n    color: {{config.colored_text == true ? '#1A1' : 'inherit'}};\n    text-align: left;\n  }\n  .osc-temp-min {\n    grid-area: min_value;\n    color: {{config.colored_text == true ? '#48F' : 'inherit'}};\n    text-align: left;\n  }\n  .osc-temp-max {\n    grid-area: max_value;\n    color: {{config.colored_text == true ? '#F00' : 'inherit'}};\n    text-align: left;\n  }\n  .osc-low-bat { grid-area: bat_warn; }\n  .osc-low-bat img { float: right; }\n</style>\n\n<div class=\"osc-widget osc-maximize\" oc-lazy-load=\"['/static/habpanel_oscwidget_maximize.js']\">\n  <main class=\"osc-maximize osc-body\" ng-controller=\"ngMaximizeWidgetContent\">\n    <h3 class=\"osc-title\">{{ngModel.name}}</h3>\t\n    <span style=\"grid-area: t_icon\">Current</span>\n    <span class=\"osc-temp\">{{'%.1f' | sprintf:itemValue(config.temperature).split(' ')[0]}}&nbsp;{{itemValue(config.temperature).split(' ')[1]}}</span>\n    <span style=\"grid-area: min_icon\">Min.</span>\n    <span class=\"osc-temp-min\">{{'%.1f' | sprintf:itemValue(config.min_temperature).split(' ')[0]}}&nbsp;{{itemValue(config.min_temperature).split(' ')[1]}}</span>\n    <span style=\"grid-area: max_icon\">Max.</span>\n    <span class=\"osc-temp-max\">{{'%.1f' | sprintf:itemValue(config.max_temperature).split(' ')[0]}}&nbsp;{{itemValue(config.max_temperature).split(' ')[1]}}</span>\n    <span class=\"osc-low-bat\" ng-if=\"config.show_low_battery == true && itemvalue(config.low_battery) == true\">\n      <widget-icon iconset=\"'eclipse-smarthome-classic'\" icon=\"'lowbattery'\"/>\n    </span>\n\t</main>\n</div>\n\n"
+    "template": "<style>\n  .osc.temperature.body {    \n    grid-template-areas:\n      \"title . bat_warn\"\n      \"temp temp temp\"\n      \"min_temp . max_temp\";\n    grid-template-columns: 1fr .5fr 1fr;\n    grid-template-rows: min-content 40% 1fr;\n  }\n  .osc.temperature.temp {\n    grid-area: temp;\n    color: {{config.colored_text == true ? 'var(--osc-green)' : 'inherit'}};\n    font-size: {{config.font_size}}rem;\n  }\n  .osc.temperature.temp-min {\n    grid-area: min_temp;\n    color: {{config.colored_text == true ? 'var(--osc-blue)' : 'inherit'}};\n    font-size: {{config.font_size/5}}rem;\n    text-align: right;\n  }\n  .osc.temperature.temp-max {\n    grid-area: max_temp;\n    color: {{config.colored_text == true ? 'var(--osc-red)' : 'inherit'}};\n    font-size: {{config.font_size/5}}rem;\n    text-align: left;\n  }\n</style>\n\n<div class=\"osc widget maximize\" oc-lazy-load=\"['/static/habpanel_oscwidget_maximize.js', '/static/habpanel_oscwidget_style.css']\">\n  <main class=\"osc temperature body maximize\" ng-controller=\"ngMaximizeWidgetContent\">\n    <h3 class=\"osc title\">{{ngModel.name}}</h3>\n    <span class=\"osc low-bat\" ng-if=\"config.show_low_battery == true && itemvalue(config.low_battery) == true\">\n      <widget-icon iconset=\"'eclipse-smarthome-classic'\" icon=\"'lowbattery'\"/>\n    </span>\n    <div class=\"osc temperature temp maximize\">\n      <span>{{'%.1f' | sprintf:itemValue(config.temperature).split(' ')[0]}}</span>\n      <span style=\"font-size: {{config.font_size/3}}rem;\">{{itemValue(config.temperature).split(' ')[1]}}</span>\n    </div>\n    <span class=\"osc temperature temp-min\">Min. <br/>\n      {{'%.1f' | sprintf:itemValue(config.min_temperature).split(' ')[0]}}&nbsp;{{itemValue(config.min_temperature).split(' ')[1]}}\n    </span>\n    <span class=\"osc temperature temp-max\">Max. <br/>\n      {{'%.1f' | sprintf:itemValue(config.max_temperature).split(' ')[0]}}&nbsp;{{itemValue(config.max_temperature).split(' ')[1]}}\n    </span>    \n\t</main>\n</div>\n\n",
+    "source_url": "https://raw.githubusercontent.com/Saphareas/openHAB-Oregon-Scientific-Weather-Widgets/master/OSC%20Temperature.widget.json",
+    "readme_url": "https://github.com/Saphareas/openHAB-Oregon-Scientific-Weather-Widgets"
 }
