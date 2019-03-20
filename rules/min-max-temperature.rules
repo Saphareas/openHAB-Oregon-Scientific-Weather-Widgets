@@ -1,0 +1,12 @@
+rule "Set daily min and max temperature"
+
+when
+	Item <temperature item> changed or Time cron "0 0 0 * * ?" or System started
+then
+	val min = (<temperature item>.minimumSince(now.withTimeAtStartOfDay, "rrd4j").state as DecimalType).doubleValue
+	val max = (<temperature item>.maximumSince(now.withTimeAtStartOfDay, "rrd4j").state as DecimalType).doubleValue
+	if (max != null && min != null) {
+		<min temperature item>.postUpdate(min)
+		<max temperature item>.postUpdate(max)
+	}
+end
