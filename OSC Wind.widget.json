@@ -1,0 +1,40 @@
+{
+    "template": "<style>\n  .osc.body.wind {\n    grid-template-columns: 50% 50%;\n  }\n  .osc.wind.stats {\n    display: grid;\n    grid-template-areas:\n      \"title .\"\n      \". .\"\n      \"b_icon beaufort\"\n      \"s_icon speed\"\n      \"g_icon gust\"\n      \". .\";\n    grid-template-columns: 2fr 4fr;\n    grid-template-rows: min-content 1fr repeat(3, min-content) 1fr;    \n  }\n  .osc.wind.dir {\n    display: grid;\n    grid-template-areas:\n      \". bat_warn\"\n      \"compass compass\"\n      \"d_deg d_str\";\n    grid-template-columns: 1fr 1fr;\n    grid-template-rows: min-content min-content 1fr;    \n    grid-column: 2;\n  }\n  .osc.wind.value {\n    font-size: {{config.font_size}}rem;\n    text-align: left;\n    color: var(--osc-yellow);\n  }\n  .osc.wind.compass {\n    grid-area: compass;\n    transform: rotate({{'%.1fdeg' | sprintf:itemValue(config.dir_deg).split(' ')[0]}});\n  }\n  .osc.widget img[src^=\"/icon/wi_\"] {\n  \t filter: invert(60%) sepia(100%) hue-rotate(19deg) saturate(300%);\n  }\n</style>\n\n<div class=\"osc widget maximize\" oc-lazy-load=\"['/static/habpanel_oscwidget_maximize.js', '/static/habpanel_oscwidget_style.css']\">\n  <main class=\"osc wind body maximize\" ng-controller=\"ngMaximizeWidgetContent\">\n    <section class=\"osc wind stats maximize\">\n      <h3 class=\"osc title\">{{ngModel.name}}</h3>      \n      <span style=\"grid-area: b_icon\"><widget-icon iconset=\"'custom-icon'\" icon=\"'wi_wind_beaufort'\" state=itemValue(config.beaufort) size=\"42\"/></span>\n      <span class=\"osc wind value\" style=\"grid-area: beaufort\">\n        {{'%s' | sprintf:itemValue(config.beaufort)}}\n      </span>\n      <span style=\"grid-area: s_icon\"><widget-icon iconset=\"'custom-icon'\" icon=\"'wi_windy'\" size=\"42\"/></span>\n      <span class=\"osc wind value\" style=\"grid-area: speed\">\n        {{'%.1f' | sprintf:itemValue(config.av_speed).split(' ')[0]}}&nbsp;{{itemValue(config.av_speed).split(' ')[1]}}\n      </span>\n      <span style=\"grid-area: g_icon\"><widget-icon iconset=\"'custom-icon'\" icon=\"'wi_strong_wind'\" size=\"42\"/></span>\n      <span class=\"osc wind value\" style=\"grid-area: gust\">\n        {{'%.1f' | sprintf:itemValue(config.gust).split(' ')[0]}}&nbsp;{{itemValue(config.gust).split(' ')[1]}}\n      </span>\n    </section>\n    <section class=\"osc wind dir maximize\">\n      <span class=\"osc low-bat\" ng-if=\"config.show_low_battery == true && itemvalue(config.low_battery) == 'CLOSED'\">\n        <widget-icon iconset=\"'eclipse-smarthome-classic'\" icon=\"'lowbattery'\"/>\n      </span>\n      <span class=\"osc wind compass\"><widget-icon iconset=\"'custom-icon'\" icon=\"'wi_wind_deg'\" size=\"200\"/></span>\n      <span class=\"osc wind value\" style=\"grid-area: d_deg; text-align: right\">\n        {{'%s&nbsp;|' | sprintf:itemValue(config.dir_deg)}}\n      </span>\n      <span class=\"osc wind value\" style=\"grid-area: d_str\">\n        {{'&nbsp;%s' | sprintf:itemValue(config.dir_str)}}\n      </span>\n    </section>\n  </main>\n</div>",
+    "settings": [
+        {
+            "type": "item",
+            "id": "beaufort",
+            "label": "Beaufort value",
+            "default": "",
+            "description": "Integer between 0 and 12"
+        },
+        {
+            "type": "item",
+            "id": "av_speed",
+            "label": "Avrg. wind speed",
+            "description": "in m/s"
+        },
+        {
+            "type": "item",
+            "id": "gust",
+            "label": "Gust speed",
+            "description": "in m/s"
+        },
+        {
+            "type": "item",
+            "id": "dir_deg",
+            "label": "Wind direction",
+            "description": "in degrees"
+        },
+        {
+            "type": "number",
+            "default": "3",
+            "description": "in rem",
+            "id": "font_size",
+            "label": "Font Size"
+        }
+    ],
+    "name": "Oregon Scientific Wind",
+    "author": "Fabian 'Saphareas' Große",
+    "description": "Weather widget that can display wind speed and direction."
+}

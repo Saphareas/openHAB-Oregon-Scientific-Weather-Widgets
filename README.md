@@ -11,3 +11,7 @@ In the ```rules``` folder you can find example rules for use with these widgets.
 ### Temperature Widget Preview:
 
 ![compact_th](.github/preview_temperature.png)
+
+### Wind Widget Preview:
+
+![compact_th](.github/preview_wind.png)
