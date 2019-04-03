@@ -1,0 +1,45 @@
+{
+    "name": "OSC Weather Simple",
+    "author": "Fabian Große",
+    "settings": [
+        {
+            "type": "item",
+            "id": "oh_item"
+        },
+        {
+            "type": "number",
+            "id": "title_size",
+            "default": "1",
+            "description": "in vw units"
+        },
+        {
+            "type": "number",
+            "id": "value_size",
+            "default": "6",
+            "description": "in vw units"
+        },
+        {
+            "type": "string",
+            "id": "unit"
+        },
+        {
+            "type": "string",
+            "id": "value_format",
+            "default": "%s"
+        },
+        {
+            "type": "color",
+            "id": "value_color"
+        },
+        {
+            "type": "string",
+            "id": "thresholds",
+            "description": "E.g. '10:blue,25:red' means, that if item value is below 10 it will be blue, if it's above 25 it will be red. If it's in between, it will be the color you set above."
+        },
+        {
+            "type": "icon",
+            "id": "backdrop"
+        }
+    ],
+    "template": "<style>\n  .osc-title {\n  \tfont-size: {{config.title_size != \"\" ? config.title_size : 'inherit'}}vw;\n  }\n  .osc-simple-value {\n  \tfont-size: {{config.value_size != \"\" ? config.value_size : 'inherit'}}vw;\n  \tcolor: {{config.value_color != \"\" ? config.value_color : 'inherit'}};\n  }\n</style>\n\n<style ng-if=\"config.thresholds\">\n  .osc-simple-value {\n  \tcolor: {{itemValue(config.oh_item) < config.thresholds.split(',')[0].split(':')[0] ? config.thresholds.split(',')[0].split(':')[1] : itemValue(config.oh_item) > config.thresholds.split(',')[1].split(':')[0] ? config.thresholds.split(',')[1].split(':')[1] : config.value_color}};\n  }\n</style>\n\n<main class=\"osc-body osc-simple\">\n  <widget-icon ng-if=\"config.backdrop\" backdrop=\"true\" iconset=\"config.backdrop_iconset\" icon=\"config.backdrop\" center=\"true\"></widget-icon>\n  <div class=\"osc-title\" ng-if=\"ngModel.name\">\n    <span>{{ngModel.name}}</span>\n  </div>\n  <div class=\"osc-simple-value\">\n    <span>{{config.value_format != \"\" ? config.value_format : \"%s\" | sprintf:itemValue(config.oh_item)}}&nbsp;{{config.unit}}</span>\n  </div>\n</main>"
+}
