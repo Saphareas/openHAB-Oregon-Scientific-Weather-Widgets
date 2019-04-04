@@ -1,0 +1,36 @@
+{
+    "name": "OSC Clock",
+    "author": "Fabian Große",
+    "settings": [
+        {
+            "type": "string",
+            "id": "time_format",
+            "default": "HH:mm"
+        },
+        {
+            "type": "number",
+            "id": "time_size",
+            "description": "in vw units"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_date",
+            "default": true
+        },
+        {
+            "type": "string",
+            "id": "date_format",
+            "default": "dd.MM.yyyy"
+        },
+        {
+            "type": "number",
+            "id": "date_size",
+            "description": "in vw units"
+        },
+        {
+            "type": "icon",
+            "id": "backdrop"
+        }
+    ],
+    "template": "<style>\n  .osc-clock { text-align: center; }\n  .osc-clock-date { font-size: {{config.date_size}}vw; }\n  .osc-clock-time { font-size: {{config.time_size}}vw; }\n</style>\n\n<main class=\"osc-clock\">\n  <widget-icon ng-if=\"config.backdrop\" backdrop=\"true\" iconset=\"config.backdrop_iconset\" icon=\"config.backdrop\" center=\"true\"></widget-icon>\n  <div class=\"osc-clock-date\" ng-if=\"config.show_date\" ng-init=\"datemodel={'mode':'digital','digital_format':config.date_format}\">\n   <widget-clock ng-model=\"datemodel\" />\n  </div>\n  <br>\n  <div class=\"osc-clock-time\" ng-init=\"timemodel={'mode':'digital','digital_format':config.time_format}\">\n   <widget-clock ng-model=\"timemodel\" />\n  </div>\n</main>"
+}
