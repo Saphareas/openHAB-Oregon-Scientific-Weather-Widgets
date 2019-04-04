@@ -1,0 +1,26 @@
+{
+    "name": "OSC Anemometer",
+    "author": "Fabian Große",
+    "description": "Shows stats about wind conditions",
+    "template": "<style>\n  .osc-wind-content {\n    display: grid;\n    grid-template-areas: \"left center right\";\n    grid-template-columns: 1fr 2fr 1fr;\n  }\n  .osc-wind-compass { grid-area: center; }\n</style>\n\n<main class=\"osc-wind\">\n  <widget-icon ng-if=\"config.backdrop\" backdrop=\"true\" iconset=\"config.backdrop_iconset\" icon=\"config.backdrop\" center=\"true\"></widget-icon>\n  <div ng-style=\"{'font-size': (config.title_size || 1)+'vw'}\" ng-if=\"ngModel.name\">\n    <span>{{ngModel.name}}</span>\n  </div>\n  <div class=\"osc-wind-content\">\n    <svg class=\"osc-wind-compass\" viewBox=\"0 0 100 100\">\n      <circle cx=\"50\" cy=\"50\" r=\"45\" fill=\"transparent\" stroke=\"#777\" stroke-width=\"5\" />\n      <circle ng-if=\"config.oh_item\"\n              cx=\"{{50 + (1-((-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180/2)+((-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180/24)) * 45}}\" \n              cy=\"{{50 + ((-90+1*itemValue(config.oh_item))*3.1415/180-((-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180/6)+((-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180*(-90+1*itemValue(config.oh_item))*3.1415/180/120)) * 45}}\" \n              r=\"3\" fill=\"#777\" stroke=\"{{config.accent_color || 'orange'}}\" stroke-width=\"2.5\" />\n      <text x=\"50\" y=\"50\" fill=\"white\" text-anchor=\"middle\" ng-if=\"config.oh_item\">{{\"%f\" | sprintf:itemValue(config.oh_item)}}&nbsp;°</text>      \n      <line x1=\"25\" y1=\"52\" x2=\"75\" y2=\"52\" stroke=\"#777\" stroke-width=\"1\" />\n      <text x=\"50\" y=\"50\" dy=\"1em\" fill=\"white\" text-anchor=\"middle\" ng-if=\"config.oh_item\">{{\"%s\" | sprintf:[\"N\", \"NNE\", \"NE\", \"ENE\", \"E\", \"ESE\", \"SE\", \"SSE\", \"S\", \"SSW\", \"SW\", \"WSW\", \"W\", \"WNW\", \"NW\", \"NNW\"][itemValue(config.oh_item)/22.5]}}</text>      \n    </svg>\n  </div>\n</main>",
+    "settings": [
+        {
+            "type": "number",
+            "id": "title_size",
+            "description": "in vw units"
+        },
+        {
+            "type": "item",
+            "id": "oh_item"
+        },
+        {
+            "type": "color",
+            "id": "accent_color",
+            "default": ""
+        },
+        {
+            "type": "icon",
+            "id": "backdrop"
+        }
+    ]
+}
