@@ -1,0 +1,52 @@
+{
+    "name": "OSC Barometer",
+    "author": "Fabian Große",
+    "settings": [
+        {
+            "type": "item",
+            "id": "oh_item",
+            "default": ""
+        },
+        {
+            "type": "checkbox",
+            "id": "show_max",
+            "default": true
+        },
+        {
+            "type": "item",
+            "id": "max_item"
+        },
+        {
+            "type": "number",
+            "id": "title_size",
+            "default": "",
+            "description": "in vw units"
+        },
+        {
+            "type": "string",
+            "id": "unit",
+            "default": "Pa"
+        },
+        {
+            "type": "string",
+            "id": "value_format",
+            "default": "%.0f"
+        },
+        {
+            "type": "string",
+            "id": "limits",
+            "description": "Comma-separated lower and upper scale limit. e.g. 960,1100",
+            "default": "96000,110000"
+        },
+        {
+            "type": "color",
+            "id": "accent_color",
+            "default": "rgb(250,120,120)"
+        },
+        {
+            "type": "icon",
+            "id": "backdrop"
+        }
+    ],
+    "template": "<style> \n  .osc-baro {\n    width: 90%;\n    margin: 0 auto;\n    display: grid;\n    grid-template-areas:\n      \". title .\"\n      \". baro .\";\n    grid-template-rows: min-content 1fr;    \n  }  \n  .osc-baro-title {\n  \tgrid-area: title;  \n    margin-bottom: 1em;\n  }  \n  .osc-baro svg {\n  \tgrid-area: baro;    \n  }\n</style>\n\n<main class=\"osc-body osc-baro\">\n  <widget-icon ng-if=\"config.backdrop\" backdrop=\"true\" iconset=\"config.backdrop_iconset\" icon=\"config.backdrop\" center=\"true\"></widget-icon>\n  <div class=\"osc-baro-title\" ng-style=\"{'font-size':config.title_size != '' ? config.title_size+'vw' : 'inherit', 'margin-bottom':config.title_size != '' ? config.title_size/2+'vw' : 'inherit'}\" ng-if=\"ngModel.name\">\n    <span>{{ngModel.name}}</span>\n  </div>  \n  <svg viewbox=\"0 0 140 105\">  \n    <svg viewBox=\"0 0 100 100\" height=\"100\" width=\"100\" x=\"20\" y=\"5\">  \n      <!--Back circle-->\n      <circle cx=\"50\" cy=\"50\" r=\"45\" stroke=\"#777\" stroke-width=\"5\" stroke-dasharray=\"230\" fill=\"transparent\" transform=\"rotate(124,50,50)\"/>\n\n      <!--Needle-->\n      <g transform=\"rotate({{(-146+(itemValue(config.oh_item)-config.limits.split(',')[0])/(config.limits.split(',')[1]-config.limits.split(',')[0])*293) < -146 ? -146 : ((-146+(itemValue(config.oh_item)-config.limits.split(',')[0])/(config.limits.split(',')[1]-config.limits.split(',')[0])*293) > 147 ? 147 : (-146+(itemValue(config.oh_item)-config.limits.split(',')[0])/(config.limits.split(',')[1]-config.limits.split(',')[0])*293))}},50,50)\">\n        <path fill=\"#aaa\"\n            d=\"M50,50 l-2,0 L50,5\n               M50,50 l2,0 L50,5\" />\n        <circle cx=\"50\" cy=\"50\" r=\"3\" fill=\"white\" stroke=\"#aaa\" stroke-width=\"3\"/>\n      </g>  \n\n      <!--Max Circle-->\n      <circle ng-if=\"config.show_max\" cx=\"50\" cy=\"50\" r=\"45\" stroke=\"{{config.accent_color || rgb(250,120,120)}}\" style=\"filter: hue-rotate(180deg)\" stroke-width=\"5\" stroke-dasharray=\"{{((itemValue(config.max_item)-config.limits.split(',')[0])/(config.limits.split(',')[1]-config.limits.split(',')[0])*230) < 0 ? 0 : (((itemValue(config.max_item)-config.limits.split(',')[0])/(config.limits.split(',')[1]-config.limits.split(',')[0])*230) > 230 ? 230 : ((itemValue(config.max_item)-config.limits.split(',')[0])/(config.limits.split(',')[1]-config.limits.split(',')[0])*230))}},300\" fill=\"transparent\" transform=\"rotate(124,50,50)\"/>\n      \n      <!--Circle-->\n      <circle cx=\"50\" cy=\"50\" r=\"45\" stroke=\"{{config.accent_color || rgb(250,120,120)}}\" stroke-width=\"5\" stroke-dasharray=\"{{((itemValue(config.oh_item)-config.limits.split(',')[0])/(config.limits.split(',')[1]-config.limits.split(',')[0])*230) < 0 ? 0 : (((itemValue(config.oh_item)-config.limits.split(',')[0])/(config.limits.split(',')[1]-config.limits.split(',')[0])*230) > 230 ? 230 : ((itemValue(config.oh_item)-config.limits.split(',')[0])/(config.limits.split(',')[1]-config.limits.split(',')[0])*230))}},300\" fill=\"transparent\" transform=\"rotate(124,50,50)\"/>\n\n      <!--Value-->\n      <text ng-if=\"config.show_max\" y=\"65\" transform=\"translate(50)\" style=\"filter: hue-rotate(180deg)\" text-anchor=\"middle\" font-size=\"0.7rem\" fill=\"white\">\n        <tspan x=\"-2\" font-size=\"0.7rem\" fill=\"{{config.accent_color || rgb(250,120,120)}}\">Max. </tspan> {{itemValue(config.max_item)}}\n      </text>\n      <text y=\"80\" transform=\"translate(50)\" text-anchor=\"middle\">        \n        <tspan x=\"0\" fill=\"white\">{{'%.0f' | sprintf:itemValue(config.oh_item)}}</tspan>\n        <tspan x=\"-2\" dy=\"1.5em\" font-size=\"0.7rem\" fill=\"{{config.accent_color || rgb(250,120,120)}}\">{{config.unit}}</tspan>\n      </text>\n    </svg> \n\n    <!--Scale-->\n    <text fill=\"grey\" font-size=\".7rem\">\n      <tspan x=\"50\" y=\"102\" text-anchor=\"end\">{{'%.0f' | sprintf:((config.limits.split(',')[1]-config.limits.split(',')[0])/7*0+config.limits.split(',')[0]*1)}}</tspan>    \n      <tspan x=\"25\" y=\"70\" text-anchor=\"end\">{{'%.0f' | sprintf:((config.limits.split(',')[1]-config.limits.split(',')[0])/7*1+config.limits.split(',')[0]*1)}}</tspan>\n      <tspan x=\"27\" y=\"35\" text-anchor=\"end\">{{'%.0f' | sprintf:((config.limits.split(',')[1]-config.limits.split(',')[0])/7*2+config.limits.split(',')[0]*1)}}</tspan>\n      <tspan x=\"60\" y=\"8\" text-anchor=\"end\">{{'%.0f' | sprintf:((config.limits.split(',')[1]-config.limits.split(',')[0])/7*3+config.limits.split(',')[0]*1)}}</tspan>\n      <tspan x=\"80\" y=\"8\">{{'%.0f' | sprintf:((config.limits.split(',')[1]-config.limits.split(',')[0])/7*4+config.limits.split(',')[0]*1)}}</tspan>\n      <tspan x=\"115\" y=\"35\">{{'%.0f' | sprintf:((config.limits.split(',')[1]-config.limits.split(',')[0])/7*5+config.limits.split(',')[0]*1)}}</tspan>\n      <tspan x=\"117\" y=\"70\">{{'%.0f' | sprintf:((config.limits.split(',')[1]-config.limits.split(',')[0])/7*6+config.limits.split(',')[0]*1)}}</tspan>    \n      <tspan x=\"90\" y=\"102\">{{'%.0f' | sprintf:((config.limits.split(',')[1]-config.limits.split(',')[0])/7*7+config.limits.split(',')[0]*1)}}</tspan>\n    </text>\n  </svg>\n</main>"
+}
