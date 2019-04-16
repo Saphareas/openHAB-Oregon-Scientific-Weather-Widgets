@@ -1,0 +1,36 @@
+{
+    "name": "OSC Rainmeter",
+    "author": "Fabian Große",
+    "description": "",
+    "template": "<style>\n  .osc-rain-content {\n    display: grid;\n    grid-template-columns: 3fr 2fr;\n  }\n  .osc-rain-glass { grid-column: 1 }\n  .osc-rain-stats { grid-column: 2 }\n  .osc-rain-stats {\n    height: 100%; \n    width: 100%;\n  }\n</style>\n\n<main class=\"osc-rain\">\n  <widget-icon ng-if=\"config.backdrop\" backdrop=\"true\" iconset=\"config.backdrop_iconset\" icon=\"config.backdrop\" center=\"true\"></widget-icon>\n  <div ng-style=\"{'font-size': (config.title_size || 1)+'vw'}\" ng-if=\"ngModel.name\">\n    <span>{{ngModel.name}}</span>\n  </div>  \n  <div class=\"osc-rain-content\">    \n    <svg class=\"osc-rain-glass\" viewBox=\"0 0 125 100\">\n      <defs>\n        <symbol id=\"bar\"\n                viewBox=\"0 0 10 2\"                \n                fill=\"#777\">\n          <rect x=\"0\" y=\"0\" width=\"10\" height=\"1\" />\n        </symbol>\n        <symbol id=\"bars\"\n                viewbox=\"0 0 125 100\">\n          <use xlink:href=\"#bar\" y=\"7.14\"  width=\"5\"  height=\"1\"/>\n          <use xlink:href=\"#bar\" y=\"14.29\" width=\"10\" height=\"2\"/>\n          <use xlink:href=\"#bar\" y=\"21.43\" width=\"5\"  height=\"1\"/>\n          <use xlink:href=\"#bar\" y=\"28.57\" width=\"10\" height=\"2\"/>\n          <use xlink:href=\"#bar\" y=\"35.71\" width=\"5\"  height=\"1\"/>\n          <use xlink:href=\"#bar\" y=\"42.86\" width=\"10\" height=\"2\"/>\n          <use xlink:href=\"#bar\" y=\"50.00\" width=\"5\"  height=\"1\"/>\n          <use xlink:href=\"#bar\" y=\"57.14\" width=\"10\" height=\"2\"/>\n          <use xlink:href=\"#bar\" y=\"64.23\" width=\"5\"  height=\"1\"/>\n          <use xlink:href=\"#bar\" y=\"71.43\" width=\"10\" height=\"2\"/>\n          <use xlink:href=\"#bar\" y=\"78.57\" width=\"5\"  height=\"1\"/>\n          <use xlink:href=\"#bar\" y=\"85.71\" width=\"10\" height=\"2\"/>\n          <use xlink:href=\"#bar\" y=\"92.86\" width=\"5\"  height=\"1\"/>\n        </symbol>\n        <symbol id=\"scale\"\n                viewbox=\"0 0 250 200\"\n                fill=\"#777\">\n          <text xlink:href=\"#bar\" y=\"28.6\">30</text>\n          <text xlink:href=\"#bar\" y=\"57\">25</text>\n          <text xlink:href=\"#bar\" y=\"86\">20</text>\n          <text xlink:href=\"#bar\" y=\"114\">15</text>\n          <text xlink:href=\"#bar\" y=\"143\">10</text>\n          <text xlink:href=\"#bar\" y=\"171.4\">05</text>\n        </symbol>\n      </defs>\n      <path d=\"M15,0\n               A10,5 0 0 0 34,0 \n               A10,5 0 0 0 53,0 \n               A10,5 0 0 0 72,0\n               A10,5 0 0 0 91,0 \n               A10,5 0 0 0 110,0\n               L110,100 L15,100 Z\"            \n            fill=\"royalblue\"\n            transform=\"translate(0,{{100 - (itemValue(config.total_rain) / 35 * 100)}})\"/>\n      <use xlink:href=\"#bars\" x=\"15\"/>\n      <use xlink:href=\"#scale\" x=\"5\" transform=\"translate(0,3)\"/>\n      <use xlink:href=\"#bars\" transform=\"translate(110) scale(-1,1)\"/>\n      <use xlink:href=\"#scale\" x=\"5\" transform=\"translate(107,3)\"/>\n      <path d=\"M5,5 L15,5 L15,100 L110,100 L110,5 L120,5\"\n            fill=\"transparent\"\n            stroke=\"#777\"\n            stroke-width=\"3\"/>      \n    </svg>\n    <svg class=\"osc-rain-stats\" viewBox=\"0 0 50 75\">\n      <circle cx=\"25\" cy=\"18.5\" r=\"15\" fill=\"none\" stroke=\"#777\" stroke-width=\"1\"></circle>\n      <text text-anchor=\"middle\" alignment-baseline=\"central\" transform=\"translate(27.5,12.5)\">\n        <tspan x=\"-1\" ng-style=\"{'fill': '#AAA', 'font-size': '0.4em'}\">Rate</tspan>\n        <tspan x=\"0\" dy=\"1em\" fill=\"white\" font-size=\"0.7em\">{{itemValue(config.rain_rate)}}</tspan>\n      \t<tspan x=\"-2\" dy=\"1em\" ng-style=\"{'fill': config.accent_color || 'royalblue', 'font-size': '0.4em'}\">{{config.unit + '/h' || 'mm/h'}}</tspan>\n      </text>\n      <circle cx=\"25\" cy=\"58.5\" r=\"15\" fill=\"none\" stroke=\"#777\" stroke-width=\"1\"></circle>\n      <text text-anchor=\"middle\" alignment-baseline=\"central\" transform=\"translate(27.5,52.5)\">\n        <tspan x=\"-1\" ng-style=\"{'fill': '#AAA', 'font-size': '0.4em'}\">Total</tspan>\n        <tspan x=\"0\" dy=\"1em\" fill=\"white\" font-size=\"0.7em\">{{itemValue(config.total_rain)}}</tspan>\n      \t<tspan x=\"-2\" dy=\"1em\" ng-style=\"{'fill': config.accent_color || 'royalblue', 'font-size': '0.4em'}\">{{config.unit || 'mm'}}</tspan>\n      </text>\n    </svg>\n  </div>\n</main>",
+    "settings": [
+        {
+            "type": "number",
+            "id": "title_size",
+            "description": "in vw units"
+        },
+        {
+            "type": "item",
+            "id": "total_rain"
+        },
+        {
+            "type": "item",
+            "id": "rain_rate"
+        },
+        {
+            "type": "choice",
+            "id": "unit",
+            "default": "mm",
+            "choices": "mm,in"
+        },
+        {
+            "type": "color",
+            "id": "accent_color",
+            "default": ""
+        },
+        {
+            "type": "icon",
+            "id": "backdrop"
+        }
+    ]
+}
